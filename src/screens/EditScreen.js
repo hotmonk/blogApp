@@ -11,12 +11,15 @@ import {
 import { Context } from "../context/BlogContext";
 import BlogPostForm from "../components/BlogPostForm";
 
-const CreateScreen = ({ navigation }) => {
-  const { addBlogPost } = useContext(Context);
+const EditScreen = ({ navigation }) => {
+  const id = navigation.getParam("id");
+  const { state, editBlogPost } = useContext(Context);
+  const blogPost = state.find((blogPost) => blogPost.id === id);
   return (
     <BlogPostForm
+      initialValues={{ title: blogPost.title, content: blogPost.content }}
       onSubmit={(title, content) => {
-        addBlogPost(title, content, () => navigation.navigate("Index"));
+        editBlogPost(id, title, content, () => navigation.pop());
       }}
     />
   );
@@ -24,4 +27,4 @@ const CreateScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({});
 
-export default CreateScreen;
+export default EditScreen;
